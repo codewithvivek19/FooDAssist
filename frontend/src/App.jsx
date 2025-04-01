@@ -15,6 +15,8 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Account from './components/Account/Account';
 import OrderSuccess from './components/OrderSuccess/OrderSuccess';
+import BodyProfile from './components/BodyProfile/BodyProfile';
+import MealPlanRecommendations from './pages/MealPlanRecommendations';
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('token');
@@ -55,6 +57,16 @@ function App() {
               <Route path="/order-success" element={
                 <PrivateRoute>
                   <OrderSuccess />
+                </PrivateRoute>
+              } />
+              <Route path="/body-profile" element={
+                <PrivateRoute>
+                  <BodyProfile />
+                </PrivateRoute>
+              } />
+              <Route path="/meal-plan-recommendations" element={
+                <PrivateRoute>
+                  <MealPlanRecommendations />
                 </PrivateRoute>
               } />
               <Route path="*" element={

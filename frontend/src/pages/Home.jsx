@@ -98,6 +98,31 @@ function Home() {
         </div>
       </section>
 
+      <section className="personalized-banner">
+        <div className="banner-content">
+          <h2>Get a Personalized Meal Plan</h2>
+          <p>Based on your body type, weight, and fitness goals</p>
+          <div className="banner-features">
+            <div className="feature">
+              <span className="feature-icon">📊</span>
+              <span>Body Profile Analysis</span>
+            </div>
+            <div className="feature">
+              <span className="feature-icon">🔍</span>
+              <span>Personalized Recommendations</span>
+            </div>
+            <div className="feature">
+              <span className="feature-icon">🥗</span>
+              <span>Optimized Meal Plans</span>
+            </div>
+          </div>
+          <Link to="/body-profile" className="btn-highlight">Create My Plan</Link>
+        </div>
+        <div className="banner-image">
+          <img src="https://images.unsplash.com/photo-1594882645126-14020914d58d" alt="Personalized Meal Planning" />
+        </div>
+      </section>
+
       <section className="goals-section">
         <h2>Select Your Fitness Goal</h2>
         <GoalSelector 

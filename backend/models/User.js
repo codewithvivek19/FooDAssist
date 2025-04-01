@@ -23,6 +23,23 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['vegetarian', 'vegan', 'gluten-free']
   }],
+  bodyDetails: {
+    weight: { type: Number },
+    height: { type: Number },
+    bodyType: { 
+      type: String, 
+      enum: ['ectomorph', 'mesomorph', 'endomorph'] 
+    },
+    activityLevel: { 
+      type: String, 
+      enum: ['sedentary', 'light', 'moderate', 'active', 'very-active'] 
+    },
+    gender: {
+      type: String,
+      enum: ['male', 'female', 'other']
+    },
+    age: { type: Number }
+  },
   createdAt: {
     type: Date,
     default: Date.now
