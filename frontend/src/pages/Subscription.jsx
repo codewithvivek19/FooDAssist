@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import './Subscription.css';
 
 const subscriptionPlans = [
@@ -51,6 +53,8 @@ const subscriptionPlans = [
 ];
 
 function Subscription() {
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState('weight-loss');
   
@@ -61,8 +65,27 @@ function Subscription() {
   const handleSubscribe = () => {
     if (!selectedPlan) return;
     
-    // Handle subscription process
-    // ... existing code ...
+    // Find the selected plan from our plans array
+    const plan = subscriptionPlans.find(p => p.id === selectedPlan);
+    
+    // Format the plan as a cart item
+    const subscriptionItem = {
+      _id: plan.id,
+      name: `${plan.name} (${selectedGoal.replace('-', ' ')})`,
+      price: plan.price,
+      description: plan.description,
+      type: 'subscription',
+      frequency: plan.frequency,
+      meals: plan.meals,
+      goal: selectedGoal,
+      image: '/images/subscription-plan.jpg' // Default image path
+    };
+    
+    // Add to cart
+    addToCart(subscriptionItem);
+    
+    // Navigate to checkout
+    navigate('/checkout');
   };
   
   return (

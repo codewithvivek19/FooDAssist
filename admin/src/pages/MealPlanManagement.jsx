@@ -15,10 +15,17 @@ function MealPlanManagement() {
 
   const fetchMealPlans = async () => {
     try {
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch('http://localhost:5004/api/meal-plans', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         }
       });
       
@@ -37,10 +44,17 @@ function MealPlanManagement() {
 
   const handleAddMealPlan = async (mealPlanData) => {
     try {
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch('http://localhost:5004/api/meal-plans', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         },
         body: JSON.stringify(mealPlanData),
       });
@@ -66,10 +80,17 @@ function MealPlanManagement() {
   const handleDeletePlan = async (planId) => {
     if (window.confirm('Are you sure you want to delete this meal plan?')) {
       try {
+        const adminToken = localStorage.getItem('adminToken');
+        
+        if (!adminToken) {
+          throw new Error('Admin authentication token missing');
+        }
+        
         const response = await fetch(`http://localhost:5004/api/meal-plans/${planId}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
           }
         });
 
@@ -87,10 +108,17 @@ function MealPlanManagement() {
 
   const handleUpdatePlan = async (mealPlanData) => {
     try {
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch(`http://localhost:5004/api/meal-plans/${editingPlan._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         },
         body: JSON.stringify(mealPlanData),
       });

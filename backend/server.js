@@ -28,6 +28,21 @@ app.use('/api/users', usersRoute);
 app.use('/api/orders', ordersRoute);
 app.use('/api/admin', adminRoute);
 
+// Add a debug route for checking auth status
+app.get('/api/debug/auth-check', (req, res) => {
+  const authHeader = req.headers.authorization || 'No Authorization header';
+  console.log('Auth check request received with header:', authHeader);
+  
+  // Return info about the request
+  res.json({
+    message: 'Auth check debug route',
+    authHeader,
+    headers: req.headers,
+    method: req.method,
+    url: req.url
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

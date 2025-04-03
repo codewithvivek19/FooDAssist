@@ -13,10 +13,26 @@ function Orders() {
   const fetchOrders = async () => {
     try {
       console.log('Fetching orders...'); // Debug log
-      const response = await fetch('http://localhost:5004/api/admin/orders');
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
+      console.log('Admin token exists:', !!adminToken);
+      
+      const response = await fetch('http://localhost:5004/api/admin/orders', {
+        headers: {
+          'Authorization': `Bearer ${adminToken}`
+        }
+      });
+      
+      console.log('API Response status:', response.status);
       
       if (!response.ok) {
-        throw new Error('Failed to fetch orders');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Error response:', errorData);
+        throw new Error(`Failed to fetch orders: ${response.status} ${errorData.message || ''}`);
       }
 
       const data = await response.json();
@@ -32,11 +48,17 @@ function Orders() {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:5004/api/orders/${orderId}/status`, {
-        method: 'PATCH',
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
+      const response = await fetch(`http://localhost:5004/api/admin/orders/${orderId}/status`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+          'Authorization': `Bearer ${adminToken}`
         },
         body: JSON.stringify({ status: newStatus })
       });

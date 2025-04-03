@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const Admin = require('../models/Admin');
 const bcrypt = require('bcryptjs');
 const auth = require('../middleware/auth');
+const adminAuth = require('../middleware/adminAuth');
 const Order = require('../models/Order');
 const Meal = require('../models/Meal');
 const MealPlan = require('../models/MealPlan');
@@ -11,23 +12,50 @@ const MealPlan = require('../models/MealPlan');
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log('Admin login attempt:', { email, password });
+    
     // For demo purposes, hardcode admin credentials
     if (email === 'admin@fitfuel.com' && password === 'admin123') {
+      console.log('Admin credentials verified');
+      
+      const adminData = {
+        userId: 'admin-123',
+        isAdmin: true,
+        role: 'admin',
+        email: 'admin@fitfuel.com'
+      };
+      
       const token = jwt.sign(
-        { isAdmin: true },
+        adminData,
         process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );
-      return res.json({ token });
+      
+      console.log('Generated admin token:', token);
+      
+      return res.json({ 
+        message: 'Admin login successful',
+        token,
+        admin: {
+          email: 'admin@fitfuel.com',
+          role: 'admin'
+        }
+      });
     }
+    
+    console.log('Invalid admin credentials');
     res.status(401).json({ message: 'Invalid credentials' });
   } catch (error) {
-    res.status(500).json({ message: 'Login failed' });
+    console.error('Admin login error:', error);
+    res.status(500).json({ 
+      message: 'Login failed',
+      error: error.message 
+    });
   }
 });
 
 // Add this route to test admin authentication
-router.get('/test-auth', auth, async (req, res) => {
+router.get('/test-auth', adminAuth, async (req, res) => {
   try {
     res.json({ 
       message: 'Admin authentication successful',
@@ -39,8 +67,10 @@ router.get('/test-auth', auth, async (req, res) => {
 });
 
 // Get all orders
-router.get('/orders', async (req, res) => {
+router.get('/orders', adminAuth, async (req, res) => {
   try {
+    console.log('Admin requesting orders:', req.user);
+    
     const orders = await Order.find()
       .sort({ createdAt: -1 })
       .populate('userId', 'name email');
@@ -54,7 +84,7 @@ router.get('/orders', async (req, res) => {
 });
 
 // Get dashboard stats
-router.get('/dashboard-stats', async (req, res) => {
+router.get('/dashboard-stats', adminAuth, async (req, res) => {
   try {
     // Get counts from database
     const totalOrders = await Order.countDocuments();
@@ -87,7 +117,7 @@ router.get('/dashboard-stats', async (req, res) => {
 });
 
 // Get all meals
-router.get('/meals', async (req, res) => {
+router.get('/meals', adminAuth, async (req, res) => {
   try {
     const meals = await Meal.find().sort({ createdAt: -1 });
     console.log('Fetched meals:', meals.length); // Debug log
@@ -102,7 +132,7 @@ router.get('/meals', async (req, res) => {
 });
 
 // Delete meal
-router.delete('/meals/:id', async (req, res) => {
+router.delete('/meals/:id', adminAuth, async (req, res) => {
   try {
     console.log('Deleting meal:', req.params.id); // Debug log
     
@@ -128,7 +158,7 @@ router.delete('/meals/:id', async (req, res) => {
 });
 
 // Update meal
-router.put('/meals/:id', async (req, res) => {
+router.put('/meals/:id', adminAuth, async (req, res) => {
   try {
     console.log('Updating meal:', req.params.id, req.body); // Debug log
     
@@ -179,7 +209,7 @@ const sendStatusNotification = async (order) => {
 };
 
 // Update order status
-router.put('/orders/:id/status', async (req, res) => {
+router.put('/orders/:id/status', adminAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -204,7 +234,7 @@ router.put('/orders/:id/status', async (req, res) => {
 });
 
 // Assign courier to order
-router.put('/orders/:id/assign-courier', async (req, res) => {
+router.put('/orders/:id/assign-courier', adminAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { courierId } = req.body;

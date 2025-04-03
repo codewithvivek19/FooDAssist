@@ -2,24 +2,164 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 60vh;
-  padding: 20px;
+  min-height: 70vh;
+  padding: 40px 20px;
 }
 
 .success-content {
-  text-align: center;
-  background: white;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin: 0 auto 20px;
 }
 
 .success-content h2 {
-  color: #4CAF50;
-  margin-bottom: 20px;
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
-.success-content p {
+.order-number {
+  font-weight: bold;
+  color: #666;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.order-message {
   color: #666;
   margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.order-summary {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.order-summary h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.summary-detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.order-items {
+  margin-top: 20px;
+}
+
+.order-items h4 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.order-items ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-items li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+.success-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.continue-btn, .account-btn {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.continue-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+.account-btn {
+  background-color: white;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.continue-btn:hover {
+  background-color: #3d8b40;
+  transform: translateY(-2px);
+}
+
+.account-btn:hover {
+  border-color: #aaa;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .success-content {
+    padding: 30px 15px;
+  }
+  
+  .success-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+  
+  .success-content h2 {
+    font-size: 1.6rem;
+  }
+  
+  .order-number {
+    font-size: 1rem;
+  }
+  
+  .order-message {
+    font-size: 0.95rem;
+  }
+  
+  .success-actions {
+    flex-direction: column;
+  }
+  
+  .continue-btn, .account-btn {
+    width: 100%;
+  }
 } 

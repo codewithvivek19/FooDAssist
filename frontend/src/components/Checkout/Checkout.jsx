@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { getToken, isValidToken, handleAuthError } from '../../utils/auth';
 import './Checkout.css';
 
 function Checkout() {
@@ -23,6 +24,20 @@ function Checkout() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Check token validity on component mount
+  useEffect(() => {
+    const token = getToken();
+    
+    if (!token) {
+      handleAuthError(navigate, '/login', 'Please login to proceed with checkout');
+      return;
+    }
+
+    if (!isValidToken(token)) {
+      handleAuthError(navigate, '/login', 'Your session has expired, please login again');
+    }
+  }, [navigate]);
 
   const handleDeliverySubmit = (e) => {
     e.preventDefault();
@@ -72,18 +87,29 @@ function Checkout() {
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('token');
+      const token = getToken();
+      
       if (!token) {
-        navigate('/login');
+        handleAuthError(navigate, '/login', 'Please login to continue with checkout');
         throw new Error('Please login to continue');
       }
+
+      // Verify token validity
+      if (!isValidToken(token)) {
+        handleAuthError(navigate, '/login', 'Your session has expired, please login again');
+        throw new Error('Session expired, please login again');
+      }
+
+      // Check if there are any meal plans in the cart
+      const hasMealPlans = cartItems.some(item => item.type === 'meal-plan');
 
       const orderData = {
         items: cartItems.map(item => ({
           _id: item._id,
           name: item.name,
           price: item.price,
-          quantity: item.quantity
+          quantity: item.quantity,
+          type: item.type || 'meal'
         })),
         total: getCartTotal(),
         deliveryDetails,
@@ -92,9 +118,12 @@ function Checkout() {
           cardNumber: cardDetails.cardNumber.slice(-4), // Only store last 4 digits
           cardName: cardDetails.cardName
         } : null,
-        status: 'pending'
+        status: 'pending',
+        orderType: hasMealPlans ? 'subscription' : 'regular'
       };
 
+      console.log('Submitting order with token:', token.substring(0, 20) + '...');
+      
       const response = await fetch('http://localhost:5004/api/orders', {
         method: 'POST',
         headers: {
@@ -107,22 +136,35 @@ function Checkout() {
         throw new Error('Network error - Please check if the server is running');
       });
 
+      // If we get a 401, redirect to login
+      if (response.status === 401) {
+        handleAuthError(navigate, '/login', 'Authentication failed, please login again');
+        throw new Error('Authentication failed, please login again');
+      }
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to create order');
       }
 
       const data = await response.json();
+      
+      // Store order details in session storage for the order success page
+      const orderForStorage = {
+        ...orderData,
+        orderId: data.order._id,
+        orderNumber: Math.floor(100000 + Math.random() * 900000),
+        createdAt: new Date().toISOString(),
+      };
+      
+      sessionStorage.setItem('latestOrder', JSON.stringify(orderForStorage));
+      
+      // Clear cart and navigate to success page
       clearCart();
       navigate('/order-success');
     } catch (err) {
       console.error('Payment error:', err);
       setError(err.message || 'Failed to process payment. Please try again.');
-      if (err.message.includes('login')) {
-        setTimeout(() => {
-          navigate('/login');
-        }, 2000);
-      }
     } finally {
       setLoading(false);
     }
@@ -305,9 +347,15 @@ function Checkout() {
           <div className="order-summary">
             <h3>Order Summary</h3>
             {cartItems.map(item => (
-              <div key={item._id} className="order-item">
-                <span>{item.name} x {item.quantity}</span>
-                <span>${(item.price * item.quantity).toFixed(2)}</span>
+              <div key={item._id} className={`order-item ${item.type === 'meal-plan' ? 'meal-plan-item' : ''}`}>
+                <div className="item-info">
+                  {item.type === 'meal-plan' && <span className="plan-tag">Meal Plan</span>}
+                  <span className="item-name">{item.name}</span>
+                  <span className="item-quantity">
+                    {item.type === 'meal-plan' ? '28 days' : `× ${item.quantity}`}
+                  </span>
+                </div>
+                <span className="item-price">${(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}
             <div className="order-total">

@@ -14,10 +14,18 @@ function Meals() {
   const fetchMeals = async () => {
     try {
       console.log('Fetching meals...'); // Debug log
+      
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch('http://localhost:5004/api/admin/meals', {
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         }
       });
 
@@ -44,11 +52,19 @@ function Meals() {
 
     try {
       console.log('Deleting meal:', mealId); // Debug log
+      
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch(`http://localhost:5004/api/admin/meals/${mealId}`, {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         }
       });
 
@@ -78,11 +94,19 @@ function Meals() {
     e.preventDefault();
     try {
       console.log('Updating meal:', editingMeal); // Debug log
+      
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch(`http://localhost:5004/api/admin/meals/${editingMeal._id}`, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         },
         body: JSON.stringify({
           name: editingMeal.name,

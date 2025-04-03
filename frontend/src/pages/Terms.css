@@ -1,0 +1,85 @@
+.terms-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: #333;
+}
+
+.terms-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.terms-header h1 {
+  font-size: 2.5rem;
+  color: #4CAF50;
+  margin-bottom: 0.5rem;
+}
+
+.terms-header p {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.terms-content {
+  line-height: 1.6;
+}
+
+.terms-section {
+  margin-bottom: 2.5rem;
+}
+
+.terms-section h2 {
+  color: #4CAF50;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.terms-section h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.terms-section p {
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.terms-section ul {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.terms-section li {
+  margin-bottom: 0.5rem;
+}
+
+.contact-info {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  list-style-type: none;
+}
+
+.contact-info li {
+  padding: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .terms-header h1 {
+    font-size: 2rem;
+  }
+  
+  .terms-section h2 {
+    font-size: 1.3rem;
+  }
+  
+  .terms-section h3 {
+    font-size: 1.1rem;
+  }
+} 

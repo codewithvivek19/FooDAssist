@@ -18,7 +18,19 @@ function Dashboard() {
   const fetchStats = async () => {
     try {
       console.log('Fetching dashboard stats...'); // Debug log
-      const response = await fetch('http://localhost:5004/api/admin/dashboard-stats');
+      
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
+      const response = await fetch('http://localhost:5004/api/admin/dashboard-stats', {
+        headers: {
+          'Authorization': `Bearer ${adminToken}`,
+          'Content-Type': 'application/json'
+        }
+      });
       
       if (!response.ok) {
         throw new Error('Failed to fetch dashboard stats');

@@ -22,7 +22,19 @@ function OrderManagement() {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('http://localhost:5004/api/admin/orders');
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
+      const response = await fetch('http://localhost:5004/api/admin/orders', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        }
+      });
+      
       if (!response.ok) {
         throw new Error('Failed to fetch orders');
       }
@@ -45,10 +57,17 @@ function OrderManagement() {
 
   const confirmOrder = async (orderId) => {
     try {
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch(`http://localhost:5004/api/admin/orders/${orderId}/confirm`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         }
       });
 
@@ -70,10 +89,17 @@ function OrderManagement() {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch(`http://localhost:5004/api/admin/orders/${orderId}/status`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         },
         body: JSON.stringify({ status: newStatus })
       });
@@ -92,10 +118,17 @@ function OrderManagement() {
 
   const assignCourier = async (orderId, courierId) => {
     try {
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch(`http://localhost:5004/api/admin/orders/${orderId}/assign-courier`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         },
         body: JSON.stringify({ courierId })
       });

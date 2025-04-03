@@ -20,6 +20,7 @@ const Footer = () => {
               <li><Link to="/meals/keto">Keto</Link></li>
               <li><Link to="/meals/vegan">Vegan</Link></li>
               <li><Link to="/meals/paleo">Paleo</Link></li>
+              <li><Link to="/meal-plans">Meal Plans</Link></li>
             </ul>
           </div>
           
@@ -39,13 +40,21 @@ const Footer = () => {
             <ul>
               <li><a href="mailto:support@fitfuel.com">support@fitfuel.com</a></li>
               <li><a href="tel:+1800123456">1-800-123-456</a></li>
-              <li><Link to="/contact">Contact Form</Link></li>
+              <li><Link to="/contact">Contact Us</Link></li>
             </ul>
             <div className="social-links">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">FB</a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">IG</a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">TW</a>
             </div>
+          </div>
+          
+          <div className="footer-section">
+            <h4>Legal</h4>
+            <ul>
+              <li><Link to="/privacy">Privacy Policy</Link></li>
+              <li><Link to="/terms">Terms of Service</Link></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -55,6 +64,7 @@ const Footer = () => {
         <div className="footer-policies">
           <Link to="/privacy">Privacy Policy</Link>
           <Link to="/terms">Terms of Service</Link>
+          <Link to="/contact">Contact</Link>
         </div>
       </div>
     </footer>

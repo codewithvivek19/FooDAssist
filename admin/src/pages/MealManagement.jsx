@@ -14,10 +14,17 @@ function MealManagement() {
 
   const fetchMeals = async () => {
     try {
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch('http://localhost:5004/api/meals', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         }
       });
       
@@ -36,10 +43,17 @@ function MealManagement() {
 
   const handleAddMeal = async (mealData) => {
     try {
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
       const response = await fetch('http://localhost:5004/api/meals', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
         },
         body: JSON.stringify(mealData),
       });

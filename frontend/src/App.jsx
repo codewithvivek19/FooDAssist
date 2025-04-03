@@ -15,6 +15,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Account from './components/Account/Account';
 import OrderSuccess from './components/OrderSuccess/OrderSuccess';
+import OrderDetails from './components/OrderDetails/OrderDetails';
 import BodyProfile from './components/BodyProfile/BodyProfile';
 import MealPlanRecommendations from './pages/MealPlanRecommendations';
 
@@ -57,6 +58,11 @@ function App() {
               <Route path="/order-success" element={
                 <PrivateRoute>
                   <OrderSuccess />
+                </PrivateRoute>
+              } />
+              <Route path="/order/:orderId" element={
+                <PrivateRoute>
+                  <OrderDetails />
                 </PrivateRoute>
               } />
               <Route path="/body-profile" element={

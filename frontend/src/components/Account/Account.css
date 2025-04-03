@@ -12,7 +12,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
 }
 
 .account-box h2 {
@@ -37,7 +37,7 @@
   margin-top: 30px;
 }
 
-.edit-btn, .save-btn {
+.edit-btn, .save-btn, .shop-now-btn, .view-details-btn {
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -45,6 +45,11 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover, .save-btn:hover, .shop-now-btn:hover, .view-details-btn:hover {
+  background-color: #3d8b40;
 }
 
 .logout-btn, .cancel-btn {
@@ -55,6 +60,11 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover, .cancel-btn:hover {
+  background-color: #d32f2f;
 }
 
 .account-form .form-group {
@@ -79,4 +89,218 @@
 .account-form input:disabled {
   background-color: #f5f5f5;
   cursor: not-allowed;
+}
+
+/* Tabs styles */
+.account-tabs {
+  display: flex;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+  color: #4CAF50;
+  border-bottom: 3px solid #4CAF50;
+  font-weight: 600;
+}
+
+.tab-btn:hover:not(.active) {
+  color: #3d8b40;
+  background-color: #f9f9f9;
+}
+
+/* Orders section styles */
+.orders-section {
+  margin-top: 10px;
+}
+
+.loading, .empty-orders {
+  text-align: center;
+  padding: 30px 0;
+  color: #666;
+}
+
+.error-message {
+  color: #f44336;
+  text-align: center;
+  padding: 20px;
+  background-color: #ffebee;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.empty-orders p {
+  margin-bottom: 20px;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.order-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.order-card:hover {
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.order-header {
+  background-color: #f5f7fa;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.order-date {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.order-id {
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background-color: #FFF3CD;
+  color: #856404;
+}
+
+.status-processing, .status-preparing {
+  background-color: #CCE5FF;
+  color: #004085;
+}
+
+.status-out-for-delivery {
+  background-color: #D1ECF1;
+  color: #0C5460;
+}
+
+.status-delivered {
+  background-color: #D4EDDA;
+  color: #155724;
+}
+
+.status-cancelled {
+  background-color: #F8D7DA;
+  color: #721C24;
+}
+
+.order-items {
+  padding: 15px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #666;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-footer {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fafafa;
+  border-top: 1px solid #eee;
+}
+
+.order-total {
+  display: flex;
+  gap: 10px;
+  color: #333;
+  font-size: 16px;
+}
+
+.view-details-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .account-box {
+    padding: 20px 15px;
+  }
+  
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .status-badge {
+    align-self: flex-start;
+  }
+  
+  .order-footer {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .view-details-btn {
+    width: 100%;
+  }
+}
+
+.empty-order-actions {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.create-test-btn {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.create-test-btn:hover {
+  background-color: #0b7dda;
 } 
