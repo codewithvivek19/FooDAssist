@@ -89,7 +89,13 @@ router.get('/dashboard-stats', adminAuth, async (req, res) => {
     // Get counts from database
     const totalOrders = await Order.countDocuments();
     const totalMeals = await Meal.countDocuments();
-    const activeMealPlans = await Order.countDocuments({ status: 'active' });
+    const totalMealPlans = await MealPlan.countDocuments();
+    
+    // Count active subscriptions - orders with orderType 'subscription'
+    const activeSubscriptions = await Order.countDocuments({ 
+      orderType: 'subscription',
+      status: { $nin: ['cancelled', 'delivered'] }
+    });
     
     // Calculate total revenue
     const revenueResult = await Order.aggregate([
@@ -104,7 +110,8 @@ router.get('/dashboard-stats', adminAuth, async (req, res) => {
     const stats = {
       totalOrders,
       totalMeals,
-      activeMealPlans,
+      totalMealPlans,
+      activeSubscriptions,
       totalRevenue: revenueResult[0]?.total || 0
     };
 

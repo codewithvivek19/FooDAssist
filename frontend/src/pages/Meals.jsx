@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 import './Meals.css';
 
 function Meals() {
@@ -50,6 +51,18 @@ function Meals() {
   return (
     <div className="meals-page">
       <h1>Our Meals</h1>
+      
+      <div className="meal-categories">
+        <h2>Browse by Category</h2>
+        <div className="category-links">
+          <Link to="/meals/weight-loss" className="category-link">Weight Loss</Link>
+          <Link to="/meals/muscle-gain" className="category-link">Muscle Gain</Link>
+          <Link to="/meals/keto" className="category-link">Keto</Link>
+          <Link to="/meals/vegan" className="category-link">Vegan</Link>
+          <Link to="/meals/paleo" className="category-link">Paleo</Link>
+        </div>
+      </div>
+      
       <div className="meals-grid">
         {meals.map((meal) => (
           <div key={meal._id} className="meal-card">

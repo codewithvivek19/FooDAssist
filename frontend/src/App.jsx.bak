@@ -25,8 +25,6 @@ import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
-import ExpertAdvicePage from "./pages/ExpertAdvicePage";
-import ArticleDetail from "./pages/ArticleDetail";
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('token');
@@ -71,8 +69,7 @@ function App() {
               {/* Information Pages */}
               <Route path="/about" element={<AboutUs />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
-              <Route path="/expert-advice" element={<ExpertAdvicePage />} />
-              <Route path="/expert-advice/:id" element={<ArticleDetail />} />
+              <Route path="/expert-advice" element={<ExpertAdvice />} />
               <Route path="/faq" element={<FAQ />} />
               
               {/* Legal Pages */}
@@ -129,4 +126,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 

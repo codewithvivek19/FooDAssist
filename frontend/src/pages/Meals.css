@@ -10,6 +10,74 @@
   color: #333;
 }
 
+.meal-categories {
+  margin-bottom: 40px;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.meal-categories h2 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #444;
+}
+
+.category-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.category-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f8f8f8;
+  color: #333;
+  text-decoration: none;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.category-link:hover {
+  background-color: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.category-description {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+  border-left: 4px solid #4CAF50;
+}
+
+.category-description p {
+  line-height: 1.6;
+  margin: 0;
+  color: #555;
+}
+
+.no-meals {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.no-meals p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
 .meals-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -125,6 +193,17 @@
 @media (max-width: 768px) {
   .meals-header h1 {
     font-size: 2rem;
+  }
+  
+  .category-links {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    justify-content: flex-start;
+  }
+  
+  .category-link {
+    white-space: nowrap;
   }
   
   .category-filters {

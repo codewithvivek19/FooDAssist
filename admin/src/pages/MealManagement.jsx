@@ -7,6 +7,7 @@ function MealManagement() {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingMeal, setEditingMeal] = useState(null);
 
   useEffect(() => {
     fetchMeals();
@@ -71,6 +72,71 @@ function MealManagement() {
     }
   };
 
+  const handleEditMeal = (meal) => {
+    setEditingMeal(meal);
+    setShowForm(true);
+  };
+
+  const handleUpdateMeal = async (mealData) => {
+    try {
+      const adminToken = localStorage.getItem('adminToken');
+      
+      if (!adminToken) {
+        throw new Error('Admin authentication token missing');
+      }
+      
+      const response = await fetch(`http://localhost:5004/api/meals/${editingMeal._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: JSON.stringify(mealData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update meal');
+      }
+      
+      await fetchMeals();
+      setShowForm(false);
+      setEditingMeal(null);
+    } catch (err) {
+      console.error('Error updating meal:', err);
+      throw err;
+    }
+  };
+
+  const handleDeleteMeal = async (mealId) => {
+    if (window.confirm('Are you sure you want to delete this meal?')) {
+      try {
+        const adminToken = localStorage.getItem('adminToken');
+        
+        if (!adminToken) {
+          throw new Error('Admin authentication token missing');
+        }
+        
+        const response = await fetch(`http://localhost:5004/api/meals/${mealId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete meal');
+        }
+
+        await fetchMeals();
+      } catch (err) {
+        console.error('Error deleting meal:', err);
+        alert('Failed to delete meal: ' + err.message);
+      }
+    }
+  };
+
   if (loading) return <div className="loading">Loading meals...</div>;
   if (error) return <div className="error">Error: {error}</div>;
 
@@ -80,7 +146,10 @@ function MealManagement() {
         <h1>Meal Management</h1>
         <button 
           className="add-meal-btn"
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => {
+            setShowForm(!showForm);
+            setEditingMeal(null);
+          }}
         >
           {showForm ? 'Cancel' : 'Add New Meal'}
         </button>
@@ -88,8 +157,11 @@ function MealManagement() {
 
       {showForm && (
         <div className="form-container">
-          <h2>Add New Meal</h2>
-          <MealForm onSubmit={handleAddMeal} />
+          <h2>{editingMeal ? 'Edit Meal' : 'Add New Meal'}</h2>
+          <MealForm 
+            onSubmit={editingMeal ? handleUpdateMeal : handleAddMeal}
+            initialData={editingMeal}
+          />
         </div>
       )}
 

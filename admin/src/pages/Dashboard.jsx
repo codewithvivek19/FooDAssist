@@ -6,7 +6,7 @@ function Dashboard() {
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalOrders: 0,
-    activeMealPlans: 0,
+    totalMealPlans: 0,
     totalMeals: 0,
     totalRevenue: 0
   });
@@ -90,8 +90,8 @@ function Dashboard() {
           <p className="stat-value">{stats.totalOrders}</p>
         </div>
         <div className="stat-card">
-          <h3>Active Meal Plans</h3>
-          <p className="stat-value">{stats.activeMealPlans}</p>
+          <h3>Total Meal Plans</h3>
+          <p className="stat-value">{stats.totalMealPlans}</p>
         </div>
         <div className="stat-card">
           <h3>Total Meals</h3>
